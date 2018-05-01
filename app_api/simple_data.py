@@ -17,8 +17,8 @@ class AppData(object):
         },
         {
             'id': 2,
-            'title': 'Learn Python',
-            'description': 'Need to find a good Python tutorial on the web', 
+            'title': 'Play role',
+            'description': 'Just be yourself, 007', 
             'done': False
         }
     ]
