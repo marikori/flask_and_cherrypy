@@ -4,7 +4,7 @@ Created on Apr 29, 2018
 @author: marikori
 '''
 
-from app_api import simple_data
+from app_api.simple_data import AppData
 
 
 class TaskError(Exception):
@@ -36,17 +36,17 @@ class SimpleApi(object):
         '''
         Constructor
         '''
-        self.tasks = simple_data.AppData.tasks
+        self.app_data = AppData()
     
     
     
     def get_tasks(self, task_id = None):
         
         if task_id is None:
-            return self.tasks
+            return self.app_data.get_tasks()
         
         else:
-            task = [task for task in self.tasks if task["id"] == task_id]
+            task = [task for task in self.app_data.get_tasks() if task["id"] == task_id]
             
             if len(task) == 0:
                 raise TaskNotFound("Not found - task id " + repr(task_id))
@@ -57,44 +57,41 @@ class SimpleApi(object):
     
     def create_task(self, request):
         
-        if not request.json or not 'title' in request.json:
+        if not request or not 'title' in request:
             raise BadRequest("Bad Request - missing required key title")
         
         task = {
-            'id': self.tasks[-1]['id'] + 1,
-            'title': request.json['title'],
-            'description': request.json.get('description', ""),
+            'title': request['title'],
+            'description': request.get('description', ""),
             'done': False
         }
         
-        self.tasks.append(task)
-        
-        return task
+        return self.app_data.append_task(task)
     
     
     
     def update_task(self, request, task_id):
         
-        task = [task for task in self.tasks if task['id'] == task_id]
+        task = [task for task in self.app_data.get_tasks() if task['id'] == task_id]
         
         if len(task) == 0:
             raise TaskNotFound("Not found - task id " + repr(task_id))
         
-        if not request.json:
+        if not request:
             raise BadRequest("Bad Request - no data provided")
         
-        if 'title' in request.json and type(request.json['title']) != str:
+        if 'title' in request and type(request['title']) != str:
             raise BadRequest("Bad Request - title has to be string")
         
-        if 'description' in request.json and type(request.json['description']) is not str:
+        if 'description' in request and type(request['description']) is not str:
             raise BadRequest("Bad Request - description has to be string")
         
-        if 'done' in request.json and type(request.json['done']) is not bool:
+        if 'done' in request and type(request['done']) is not bool:
             raise BadRequest("Bad Request - done has to be boolean")
         
-        task[0]['title'] = request.json.get('title', task[0]['title'])
-        task[0]['description'] = request.json.get('description', task[0]['description'])
-        task[0]['done'] = request.json.get('done', task[0]['done'])
+        task[0]['title'] = request.get('title', task[0]['title'])
+        task[0]['description'] = request.get('description', task[0]['description'])
+        task[0]['done'] = request.get('done', task[0]['done'])
         
         return task[0]
     
@@ -102,12 +99,10 @@ class SimpleApi(object):
     
     def delete_task(self, task_id):
         
-        task = [task for task in self.tasks if task['id'] == task_id]
+        task = [task for task in self.app_data.get_tasks() if task['id'] == task_id]
         
         if len(task) == 0:
             raise TaskNotFound("Not found - task id " + repr(task_id))
         
-        self.tasks.remove(task[0])
-        
-        return True
+        return self.app_data.remove_task(task[0])
 

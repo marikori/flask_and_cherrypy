@@ -58,13 +58,8 @@ if __name__ == '__main__':
     #host = "http://localhost:5000"
     host = "https://localhost:8080"
     
-    #response = call(host + "/todo/api/v1.0/tasks", json.dumps(d1put).encode("utf-8"), headrs, method = "POST")
-    #response = call(host + "/todo/api/v1.0/tasks/1", json.dumps(d1put).encode("utf-8"), headrs, method = "PUT")
-    #response = call(host + "/todo/api/v1.0/tasks/1", headrs = headrs, method = "DELETE")
+    response = call(host + "/todo/api/v1.0/tasks", json.dumps(d1put).encode("utf-8"), headrs, method = "POST")
+    response = call(host + "/todo/api/v1.0/tasks/1", json.dumps(d1put).encode("utf-8"), headrs, method = "PUT")
+    response = call(host + "/todo/api/v1.0/tasks/1", headrs = headrs, method = "DELETE")
     response = call(host + "/todo/api/v1.0/tasks/2", headrs = headrs)
     response = call(host + "/todo/api/v1.0/tasks", headrs = headrs)
-    
-    #response = call(host + "/users/1", headrs = headrs, method = "POST")
-    #response = call(host + "/users/2", headrs = headrs, method = "PUT")
-    #response = call(host + "/users/3", headrs = headrs, method = "DELETE")
-    #response = call(host + "/users/", headrs = headrs, method = "GET")
