@@ -34,6 +34,7 @@ def call(uri, data = None, headrs = None, method = "GET"):
     except Exception as e:
         if hasattr(e, "read"):
             print("EXCEPTION")
+            print("code " + str(e.code))
             print(e.read().decode('utf-8'))
         
         raise e
@@ -58,8 +59,9 @@ if __name__ == '__main__':
     #host = "http://localhost:5000"
     host = "https://localhost:8080"
     
+    response = call(host + "/todo/api/v1.0/tasks", headrs = headrs)
     response = call(host + "/todo/api/v1.0/tasks", json.dumps(d1put).encode("utf-8"), headrs, method = "POST")
-    response = call(host + "/todo/api/v1.0/tasks/1", json.dumps(d1put).encode("utf-8"), headrs, method = "PUT")
+    response = call(host + "/todo/api/v1.0/tasks/3", json.dumps(d1put).encode("utf-8"), headrs, method = "PUT")
     response = call(host + "/todo/api/v1.0/tasks/1", headrs = headrs, method = "DELETE")
     response = call(host + "/todo/api/v1.0/tasks/2", headrs = headrs)
     response = call(host + "/todo/api/v1.0/tasks", headrs = headrs)

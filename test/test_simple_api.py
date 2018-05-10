@@ -162,7 +162,7 @@ class TestSimpleApi(unittest.TestCase):
     @patch('test.test_simple_api.AppData.get_tasks')
     def test_delete_task(self, mock_get_all_tasks, mock_remove_task):
         mock_get_all_tasks.return_value = self.tasks
-        mock_remove_task.return_value = False
+        mock_remove_task.return_value = True
         self.assertTrue(self.simple_api.delete_task(1))
     
     
