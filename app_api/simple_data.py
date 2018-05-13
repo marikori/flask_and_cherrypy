@@ -1,17 +1,8 @@
-'''
-Created on Apr 29, 2018
-
-@author: marikori
-'''
+"""Fake database handler for Flask Cherrypy POC purposes"""
 
 class AppData(object):
-    '''
-    classdocs
-    '''
+    """Implements the demo database handler"""
     def __init__(self):
-        '''
-        Constructor
-        '''
         self.tasks = [
             {
                 'id': 1,

@@ -1,9 +1,5 @@
 #!/usr/bin/env python3
-'''
-Created on Apr 29, 2018
-
-@author: marikori
-'''
+"""Commandline Rest Client"""
 
 from urllib.request import Request
 from urllib.request import urlopen

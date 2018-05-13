@@ -1,23 +1,23 @@
 #!/usr/bin/env python3
-'''
-Created on Apr 29, 2018
-
-@author: marikori
-'''
+"""
+Flask based RESTful API deployed on Cherrypy server.
+"""
 
 import cherrypy
 
 from flask import Flask, jsonify, make_response, request, url_for
 from flask_httpauth import HTTPBasicAuth
 
-from app_api.simple_api import SimpleApi, TaskNotFound, BadRequest
+from app_api.simple_api import SimpleApi
+from app_api.simple_data import AppData
 
 
 
 app = Flask(__name__)
 auth = HTTPBasicAuth()
 
-simple_api = SimpleApi()
+app_data = AppData()
+simple_api = SimpleApi(app_data)
 
 
 
@@ -58,7 +58,7 @@ def get_tasks():
 @app.route('/todo/api/v1.0/tasks/<int:task_id>', methods=['GET'])
 @auth.login_required
 def get_task(task_id):
-    return jsonify({'task': make_public_task(simple_api.get_tasks(task_id))})
+    return jsonify({'task': make_public_task(simple_api.get_task(task_id))})
 
 
 @app.route('/todo/api/v1.0/tasks', methods=['POST'])
@@ -79,14 +79,9 @@ def delete_task(task_id):
     return jsonify({'result': simple_api.delete_task(task_id)})
 
 
-@app.errorhandler(TaskNotFound)
-def not_found(error):
-    return make_response(jsonify({'error': error.__str__()}), 404)
-
-
-@app.errorhandler(BadRequest)
-def bad_request(error):
-    return make_response(jsonify({'error': error.__str__()}), 400)
+@app.errorhandler(Exception)
+def app_excps(e):
+    return make_response(jsonify({'error': str(e)}), e.code)
 
 
 if __name__ == '__main__':

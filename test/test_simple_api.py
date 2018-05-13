@@ -1,8 +1,4 @@
-'''
-Created on May 2, 2018
-
-@author: marikori
-'''
+"""Test for Simple API module"""
 import unittest, copy
 from unittest.mock import patch
 from app_api.simple_data import AppData
